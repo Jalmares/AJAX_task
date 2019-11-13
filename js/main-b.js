@@ -15,7 +15,7 @@
 // After the loop print the HTML into <ul> element using innerHTML.
 
 'use strict';
-
+/* old way
 const address = "images.json";
 let html = "";
 
@@ -41,6 +41,34 @@ function showImages() {
 }
 
 showImages();
+*/
 
+const getFetchData = async (url) => {
+    try {
+
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+
+        let html = "";
+        result.forEach(i => {
+            html += `
+            <li>
+                 <figure>
+                    <a href=img/original/${i.mediaUrl}><img src=img/thumbs/${i.mediaThumb}></a>
+                         <figcaption>
+                          <h3>${i.mediaTitle}</h3>
+                      </figcaption>
+                 </figure>
+            </li>
+        `
+        });
+        document.querySelector("ul").innerHTML = html;
+    }catch (e) {
+        console.log(e);
+    }
+};
+
+getFetchData('images.json');
 
 

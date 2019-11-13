@@ -19,7 +19,7 @@
 // When the above HTML is ready append it to the <ul> element
 
 'use strict';
-
+/* old way
 const address = "images.json";
 const ul = document.querySelector("ul");
 
@@ -53,3 +53,37 @@ function showImages() {
 }
 
 showImages();
+
+ */
+
+const getFetchData = async (url) => {
+    try {
+
+        const response = await fetch(url);
+        const result = await response.json();
+        const ul = document.querySelector("ul");
+        console.log(result);
+
+        result.forEach(i => {
+            const li = document.createElement("li");
+            const figure = document.createElement("figure");
+            const a = document.createElement("a");
+            const img = document.createElement("img");
+            const figCap = document.createElement("figcaption");
+            const h3 = document.createElement("h3");
+            a.setAttribute("href", `img/original/${i.mediaUrl}`);
+            img.setAttribute("src", `img/thumbs/${i.mediaThumb}`);
+            h3.innerText = i.mediaTitle;
+            figCap.appendChild(h3);
+            a.appendChild(img);
+            figure.appendChild(a);
+            figure.appendChild(figCap);
+            li.appendChild(figure);
+            ul.appendChild(li);
+        });
+    }catch (e) {
+        console.log(e);
+    }
+};
+
+getFetchData('images.json');
